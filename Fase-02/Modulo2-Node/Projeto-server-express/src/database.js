@@ -29,6 +29,7 @@ function updateData(id,pokemon){
 }
 
 function deleteData(id){
+    sequence._id = sequence._id - 1
     const deletedPoke = pokemons[id]
     pokemons.splice(id,1)
     pokemons.forEach((pokemon) => {
