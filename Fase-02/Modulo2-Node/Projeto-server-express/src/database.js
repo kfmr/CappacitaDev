@@ -5,10 +5,7 @@ const sequence = {
     }
 }
 
-const pokemons = {
-
-}
-
+const pokemons = []
 
 function saveData(pokemon) {
     if(!pokemon.id) pokemon.id = sequence.id
@@ -31,9 +28,22 @@ function updateData(id,pokemon){
     return pokemon
 }
 
+function deleteData(id){
+    const deletedPoke = pokemons[id]
+    pokemons.splice(id,1)
+    pokemons.forEach((pokemon) => {
+    if(pokemon.id > id){
+        pokemon.id = pokemon.id - 1
+
+    }
+    })
+    return deletedPoke
+}
+
 module.exports = {
     saveData,
     getAllData,
     getOneData,
-    updateData
+    updateData,
+    deleteData
 }

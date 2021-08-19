@@ -23,13 +23,8 @@ app.get('/pokemons', (req,res) => {
 });
 
 app.get('/pokemons/:id', (req,res) => {
-    //res.send(database.getOneData(req.params.id));
-    if(database.getOneData(req.params.id)) {
-        res.status(200).send(database.getOneData(id));
-    }
-    else {
-        res.status(404).send("Id não encontrado")
-    }
+    res.send(database.getOneData(req.params.id));
+
 });
 
 app.post('/pokemons', (req,res) => {
@@ -43,12 +38,23 @@ app.post('/pokemons', (req,res) => {
 
 app.put('/pokemons/:id', (req,res) => {
     const pokemon = database.updateData(req.params.id, {
-        id: req.params.id,
+        id: parseInt(req.params.id),
         nome: req.body.nome,
         tipo: req.body.tipo
     })
     res.send(pokemon)
 })
+
+app.delete('/pokemons/:id', (req,res) => {
+    if(database.getOneData(req.params.id)){
+        res.status(200).send(database.deleteData(req.params.id))
+    }
+    else {
+        res.status(404).send("Pokemon não existe nesse id")
+    }
+})
+
+
 app.listen(port, () => {
     console.log(`aplicação executando na porta ${port}`)
 })
