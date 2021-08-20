@@ -64,6 +64,13 @@ app.delete('/pokemons/:id', (req,res) => {
 app.post('/batalha/', (req,res) => {
     res.send(database.batalhaPokemon(req.body.id1,req.body.id2))
 })
+
+// cura pokemon
+app.post('/cura/:id', (req,res) => {
+    res.send(database.healPokemon(req.params.id))
+})
+
+
 app.listen(port, () => {
     console.log(`aplicação executando na porta ${port}`)
 })

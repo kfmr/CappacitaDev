@@ -79,11 +79,27 @@ function batalhaPokemon(id1,id2) {
 }
 }
 
+function healPokemon(id){
+    const potion = 20
+    if(pokemons[id].hp == 90){
+        pokemons[id].hp+=10
+    }
+    else if (pokemons[id].hp < 100) {
+        pokemons[id].hp+= potion
+        }
+    
+
+    return pokemons[id]
+}
+
+
+
 module.exports = {
     saveData,
     getAllData,
     getOneData,
     updateData,
     deleteData,
-    batalhaPokemon
+    batalhaPokemon,
+    healPokemon
 }
