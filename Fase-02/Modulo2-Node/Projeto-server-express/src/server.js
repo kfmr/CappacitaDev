@@ -31,7 +31,10 @@ app.post('/pokemons', (req,res) => {
     const pokemon = database.saveData({
         id: req.params.id,
         nome: req.body.nome,
-        tipo: req.body.tipo
+        tipo: req.body.tipo,
+        fraqueza: req.body.fraqueza,
+        resistencia: req.body.resistencia,
+        hp: 100
     })
     res.send(pokemon)
 });
@@ -40,7 +43,10 @@ app.put('/pokemons/:id', (req,res) => {
     const pokemon = database.updateData(req.params.id, {
         id: parseInt(req.params.id),
         nome: req.body.nome,
-        tipo: req.body.tipo
+        tipo: req.body.tipo,
+        fraqueza: req.body.fraqueza,
+        resistencia: req.body.resistencia,
+        hp: 100
     })
     res.send(pokemon)
 })
@@ -54,7 +60,10 @@ app.delete('/pokemons/:id', (req,res) => {
     }
 })
 
-
+// batalha pokemon
+app.post('/batalha/', (req,res) => {
+    res.send(database.batalhaPokemon(req.body.id1,req.body.id2))
+})
 app.listen(port, () => {
     console.log(`aplicação executando na porta ${port}`)
 })
