@@ -1,6 +1,6 @@
 #  API Pokemon
 
-API em desenvolvimento com base no conteúdo leciona no [CappacitaDev]()
+API em desenvolvimento com base no conteúdo lecionado no [CappacitaDev]()
 
 
 # Tecnologias
@@ -8,10 +8,12 @@ API em desenvolvimento com base no conteúdo leciona no [CappacitaDev]()
 - Nodejs
 - Express
 - Nodemon
-- 
+- MySQL
+
 ## Execução 
 
-Para executar a aplicação localmente no terminal:
+### Instalar dependências
+Para instalar as dependencias do projeto digite no terminal o comando: `npm install`
 
- - npm install
- - npm run dev
+### Executar localmente
+Para executar a aplicação localmente no terminal, digite o comando: `npm run dev`
