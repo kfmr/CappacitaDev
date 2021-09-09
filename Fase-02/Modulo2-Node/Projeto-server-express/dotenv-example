@@ -1,0 +1,7 @@
+# renomei o arquivo para .env e coloque as variaveis de ambiente da aplicação
+PORT=
+HOST_NAME=
+USER=
+PASSWORD=
+DATABASE=
+DBPORT=

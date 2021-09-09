@@ -10,7 +10,7 @@ const app = express();
 // configurar variavel de ambiente da porta
 const port = process.env.PORT;
 // requerir o módulo database.js
-const database = require('./database.js');
+const database = require('./database/databaseModel.js');
 
 
 // requerir a leitura do json e urlenconded no corpo da requisição
@@ -18,17 +18,21 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
 // req, res
-app.get('/pokemons', (req,res) => {
-    res.send(database.getAllData())
+app.get('/pokemons', async (req,res) => {
+    const pokemons = await database.getAllData() 
+    res.status(200).send(pokemons)
+    
 });
 
-app.get('/pokemons/:id', (req,res) => {
-    res.send(database.getOneData(req.params.id));
+app.get('/pokemons/:id', async (req,res) => {
+    const response = await database.getOneData(req.params.id)
+    res.status(200).send(response)
 
 });
 
-app.post('/pokemons', (req,res) => {
-    const pokemon = database.saveData({
+
+app.post('/pokemons', async(req,res) => {
+    const pokemon = await database.saveData({
         id: req.params.id,
         nome: req.body.nome,
         tipo: req.body.tipo,
@@ -39,9 +43,8 @@ app.post('/pokemons', (req,res) => {
     res.send(pokemon)
 });
 
-app.put('/pokemons/:id', (req,res) => {
-    const pokemon = database.updateData(req.params.id, {
-        id: parseInt(req.params.id),
+app.put('/pokemons/:id', async (req,res) => {
+    const pokemon = await database.updateData(req.params.id, {
         nome: req.body.nome,
         tipo: req.body.tipo,
         fraqueza: req.body.fraqueza,
@@ -51,24 +54,16 @@ app.put('/pokemons/:id', (req,res) => {
     res.send(pokemon)
 })
 
-app.delete('/pokemons/:id', (req,res) => {
-    if(database.getOneData(req.params.id)){
-        res.status(200).send(database.deleteData(req.params.id))
-    }
-    else {
-        res.status(404).send("Pokemon não existe nesse id")
-    }
+app.delete('/pokemons/:id', async(req,res) => {
+        const result = await database.deleteData(req.params.id)
+        if(result){
+            res.status(200).send("Registro removido com sucesso")
+        } else {
+            res.status(404).send("Registro não existe na base")
+        }
 })
 
-// batalha pokemon
-app.post('/batalha/', (req,res) => {
-    res.send(database.batalhaPokemon(req.body.id1,req.body.id2))
-})
 
-// cura pokemon
-app.post('/cura/:id', (req,res) => {
-    res.send(database.healPokemon(req.params.id))
-})
 
 
 app.listen(port, () => {
