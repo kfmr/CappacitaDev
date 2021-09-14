@@ -8,9 +8,10 @@ async function saveData(pokemon) {
         poke_type: pokemon.tipo, 
         weakness: pokemon.fraqueza, 
         strength: pokemon.resistencia, 
-        hp: pokemon.hp}
+        hp: pokemon.hp
+    }
     // db conecction executa a query
-    const result = await databaseConnection(process.env.DB_NAME).insert((queryInsertPokemon))
+    const result = await databaseConnection(process.env.DB_TABLE).insert((queryInsertPokemon))
 
     if(result){
         return {
@@ -32,7 +33,7 @@ async function getOneData(id) {
 /*     const getData = await databaseConnection.select('idPokemons','poke_name','poke_type', 'weakness', 'strength', 'hp').from(process.env.DB_NAME)
     
     return getData[id - 1] */
-    const getData = await databaseConnection(process.env.DB_NAME).where({idPokemons: id}).select('idPokemons','poke_name','poke_type', 'weakness', 'strength', 'hp')
+    const getData = await databaseConnection(process.env.DB_TABLE).where({idPokemons: id}).select('idPokemons','poke_name','poke_type', 'weakness', 'strength', 'hp')
     
     return getData
     
@@ -40,41 +41,36 @@ async function getOneData(id) {
 }
 
 async function getAllData(){
-    const selectAllData = await databaseConnection.select('idPokemons','poke_name','poke_type', 'weakness', 'strength', 'hp').table(process.env.DB_NAME)
+    const selectAllData = await databaseConnection.select('idPokemons','poke_name','poke_type', 'weakness', 'strength', 'hp').table(process.env.DB_TABLE)
 
     return selectAllData
 }
 
-async function updateData(id,pokemon){
+async function updateData(idPokemons,pokemon){
     
-    const queryUpdatePokemon = {
+    const queryInsertPokemon = {
         poke_name: pokemon.nome, 
         poke_type: pokemon.tipo, 
         weakness: pokemon.fraqueza, 
-        strength: pokemon.resistencia,
+        strength: pokemon.resistencia, 
         hp: pokemon.hp
     }
-
-    // db conecction executa a query
-    const result = await databaseConnection('pokemons').where({idPokemons: id}).update(queryUpdatePokemon)
+    const result = await databaseConnection(process.env.DB_TABLE).where({idPokemons}).update(queryInsertPokemon)
     console.log(result)
- 
+
     if(result){
         return {
-            id: result[0],
-            nome: pokemon.nome,
-            tipo: pokemon.tipo,
-            fraqueza: pokemon.fraqueza,
-            resistencia: pokemon.resistencia,
-            hp: pokemon.hp
+            idPokemons,
+            ...pokemon
             
         }
     }
 }
+        
 
 async function deleteData(id){
     
-    const deletedPokemon = await databaseConnection(process.env.DB_NAME).where({idPokemons: id}).del()
+    const deletedPokemon = await databaseConnection(process.env.d).where({idPokemons: id}).del()
     
     return deletedPokemon[0]
 }

@@ -20,13 +20,19 @@ app.use(express.json())
 // req, res
 app.get('/pokemons', async (req,res) => {
     const pokemons = await database.getAllData() 
+    if(pokemons) {
     res.status(200).send(pokemons)
+    }
+    else {
+        res.status(404).send("Não há registros disponíveis")
+    }
     
 });
 
 app.get('/pokemons/:id', async (req,res) => {
-    const response = await database.getOneData(req.params.id)
-    res.status(200).send(response)
+        const response = await database.getOneData(req.params.id)
+        res.status(200).send(response)
+
 
 });
 
@@ -48,8 +54,7 @@ app.put('/pokemons/:id', async (req,res) => {
         nome: req.body.nome,
         tipo: req.body.tipo,
         fraqueza: req.body.fraqueza,
-        resistencia: req.body.resistencia,
-        hp: 100
+        resistencia: req.body.resistencia
     })
     res.send(pokemon)
 })
@@ -66,6 +71,4 @@ app.delete('/pokemons/:id', async(req,res) => {
 
 
 
-app.listen(port, () => {
-    console.log(`aplicação executando na porta ${port}`)
-})
+app.listen(port)
